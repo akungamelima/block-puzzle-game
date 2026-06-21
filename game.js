@@ -41,7 +41,7 @@ const SHAPES = [
     { cells: [[0,0],[0,1],[0,2],[1,0],[1,1],[1,2],[2,0],[2,1],[2,2]], color: COLORS[3] },
     // Plus
     { cells: [[0,1],[1,0],[1,1],[1,2],[2,1]], color: COLORS[4] },
-    // Corner
+    // Corners
     { cells: [[0,0],[1,0],[1,1]], color: COLORS[5] },
     { cells: [[0,1],[1,0],[1,1]], color: COLORS[6] },
     { cells: [[0,0],[0,1],[1,1]], color: COLORS[7] },
@@ -131,8 +131,7 @@ function drawBoard() {
                 ctx.fillStyle = val;
                 roundRect(ctx, x + 1, y + 1, cellSize - 2, cellSize - 2, 4);
                 ctx.fill();
-
-                // Shine
+                // Shine effect
                 ctx.fillStyle = 'rgba(255,255,255,0.18)';
                 roundRect(ctx, x + 3, y + 3, cellSize - 6, 5, 2);
                 ctx.fill();
@@ -210,7 +209,6 @@ function renderPieceTray() {
         container.className = 'piece-container' + (piece.used ? ' used' : '') + (idx === selectedPieceIdx ? ' selected' : '');
         container.addEventListener('click', () => selectPiece(idx));
 
-        // Find bounds
         const maxR = Math.max(...piece.cells.map(c => c[0]));
         const maxC = Math.max(...piece.cells.map(c => c[1]));
         const rows = maxR + 1;
@@ -280,16 +278,8 @@ function onCanvasClick(e) {
         checkLevelUp();
         renderPieceTray();
         drawBoard();
-
-        // All pieces used → new batch
-        if (pieces.every(p => p.used)) {
-            generatePieces();
-        }
-
-        // Check game over
-        if (!canAnyPieceBePlaced()) {
-            triggerGameOver();
-        }
+        if (pieces.every(p => p.used)) generatePieces();
+        if (!canAnyPieceBePlaced()) triggerGameOver();
     }
 }
 
@@ -308,7 +298,6 @@ function onCanvasTouch(e) {
     const touch = e.touches[0];
     const { r, c } = getCellFromEvent(touch);
     hoverCell = { r, c };
-    // On tap, place the piece
     if (selectedPieceIdx >= 0) {
         const piece = pieces[selectedPieceIdx];
         if (piece && !piece.used && canPlacePiece(piece, r, c)) {
@@ -352,7 +341,7 @@ function clearLines() {
     const total = rowsToClear.length + colsToClear.length;
     if (total === 0) return;
 
-    // Animate flash
+    // Flash animation
     const flashes = [
         ...rowsToClear.map(i => ({ type: 'row', index: i, alpha: 0.8 })),
         ...colsToClear.map(i => ({ type: 'col', index: i, alpha: 0.8 }))
@@ -365,7 +354,6 @@ function clearLines() {
         rowsToClear.forEach(r => { grid[r] = Array(GRID_SIZE).fill(null); });
         colsToClear.forEach(c => { grid.forEach(row => { row[c] = null; }); });
 
-        // Scoring: base 10 per line, combo bonus
         const base = total * 10 * GRID_SIZE;
         const comboBonus = total > 1 ? total * total * 15 : 0;
         score += base + comboBonus;
@@ -444,11 +432,8 @@ function startGame() {
     updateScoreDisplay();
     drawBoard();
 
-    // Hide overlay
     document.getElementById('boardOverlay').classList.add('hidden');
     document.getElementById('gameOverModal').classList.remove('show');
-
-    // Scroll to game
     document.getElementById('game-section').scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -460,7 +445,7 @@ function restartGame() {
 function togglePause() {
     if (!gameStarted && !isPaused) return;
     isPaused = !isPaused;
-    document.getElementById('pauseBtn').textContent = isPaused ? '▶ Lanjut' : '⏸ Pause';
+    document.getElementById('pauseBtn').textContent = isPaused ? '▶ Resume' : '⏸ Pause';
 
     if (isPaused) {
         const overlay = document.getElementById('boardOverlay');
@@ -469,9 +454,9 @@ function togglePause() {
         content.innerHTML = `
             <div class="start-screen">
                 <div class="start-icon">⏸</div>
-                <h2>Game Dijeda</h2>
-                <p>Klik tombol Lanjut untuk melanjutkan</p>
-                <button class="btn-start" onclick="togglePause()">▶ Lanjut</button>
+                <h2>Game Paused</h2>
+                <p>Click Resume to continue playing</p>
+                <button class="btn-start" onclick="togglePause()">▶ Resume</button>
             </div>`;
     } else {
         document.getElementById('boardOverlay').classList.add('hidden');
@@ -481,14 +466,14 @@ function togglePause() {
 
 // ===== PREVIEW GRID ANIMATION =====
 function initPreviewGrid() {
-    const grid = document.getElementById('previewGrid');
-    if (!grid) return;
-    grid.innerHTML = '';
+    const gridEl = document.getElementById('previewGrid');
+    if (!gridEl) return;
+    gridEl.innerHTML = '';
     const cells = [];
     for (let i = 0; i < 100; i++) {
         const cell = document.createElement('div');
         cell.className = 'preview-cell';
-        grid.appendChild(cell);
+        gridEl.appendChild(cell);
         cells.push(cell);
     }
 
@@ -533,7 +518,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Load best score
     bestScore = parseInt(localStorage.getItem('blockpuzzle_best') || '0');
     document.getElementById('bestScoreDisplay').textContent = bestScore.toLocaleString();
 
