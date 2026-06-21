@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Block Puzzle Game - Game puzzle blok seru dan menantang. Susun blok untuk mengisi baris dan kolom!">
+    <meta name="keywords" content="block puzzle, game puzzle, html5 game, game gratis">
+    <meta name="author" content="BlockPuzzle.fun">
+    <meta property="og:title" content="Block Puzzle Game">
+    <meta property="og:description" content="Game puzzle blok seru dan menantang secara gratis!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://blockpuzzlegame.fun/">
+    <title>Block Puzzle Game | BlockPuzzle.fun</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+    <div class="header-inner">
+        <div class="logo">
+            <span class="logo-icon">🧩</span>
+            <span class="logo-text">Block<span class="logo-accent">Puzzle</span>.fun</span>
+        </div>
+        <nav class="header-nav">
+            <a href="#game-section" class="nav-link">Main</a>
+            <a href="#tutorial-section" class="nav-link">Tutorial</a>
+            <a href="privacy.html" class="nav-link">Privasi</a>
+            <a href="legal.html" class="nav-link">Legal</a>
+        </nav>
+        <button class="btn-menu" id="menuToggle" aria-label="Menu">☰</button>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="#game-section" class="nav-link" onclick="closeMobileMenu()">Main</a>
+        <a href="#tutorial-section" class="nav-link" onclick="closeMobileMenu()">Tutorial</a>
+        <a href="privacy.html" class="nav-link">Privasi</a>
+        <a href="legal.html" class="nav-link">Legal</a>
+    </nav>
+</header>
+
+<!-- HERO / LANDING -->
+<section class="hero-section" id="hero">
+    <div class="hero-content">
+        <div class="hero-badge">🎮 Game HTML5 Gratis</div>
+        <h1 class="hero-title">Block Puzzle<br><span class="hero-title-accent">Game</span></h1>
+        <p class="hero-desc">Susun blok warna-warni, isi baris dan kolom, raih skor tertinggi! Game puzzle yang menenangkan sekaligus mengasah otak.</p>
+        <div class="hero-actions">
+            <button class="btn-play" id="heroPlayBtn" onclick="startGame()">
+                <span class="btn-play-icon">▶</span> MAIN SEKARANG
+            </button>
+            <button class="btn-tutorial" onclick="scrollToTutorial()">
+                📖 Cara Bermain
+            </button>
+        </div>
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-num">∞</span>
+                <span class="stat-label">Level</span>
+            </div>
+            <div class="stat">
+                <span class="stat-num">Free</span>
+                <span class="stat-label">100% Gratis</span>
+            </div>
+            <div class="stat">
+                <span class="stat-num">HTML5</span>
+                <span class="stat-label">Semua Device</span>
+            </div>
+        </div>
+    </div>
+    <div class="hero-preview">
+        <div class="preview-board">
+            <div class="preview-grid" id="previewGrid"></div>
+        </div>
+    </div>
+</section>
+
+<!-- TUTORIAL SECTION -->
+<section class="tutorial-section" id="tutorial-section">
+    <div class="container">
+        <h2 class="section-title">Cara Bermain</h2>
+        <p class="section-desc">Pelajari cara bermain dalam 4 langkah mudah</p>
+        <div class="tutorial-steps">
+            <div class="tutorial-step">
+                <div class="step-icon">🎯</div>
+                <div class="step-num">1</div>
+                <h3>Pilih Blok</h3>
+                <p>Klik atau sentuh salah satu blok dari 3 pilihan yang tersedia di bagian bawah papan.</p>
+            </div>
+            <div class="tutorial-step">
+                <div class="step-icon">📍</div>
+                <div class="step-num">2</div>
+                <h3>Tempatkan Blok</h3>
+                <p>Klik area kosong di papan 10×10 untuk menempatkan blok di posisi yang diinginkan.</p>
+            </div>
+            <div class="tutorial-step">
+                <div class="step-icon">💥</div>
+                <div class="step-num">3</div>
+                <h3>Hapus Baris/Kolom</h3>
+                <p>Isi penuh satu baris atau kolom horizontal/vertikal untuk menghapusnya dan mendapat poin!</p>
+            </div>
+            <div class="tutorial-step">
+                <div class="step-icon">🏆</div>
+                <div class="step-num">4</div>
+                <h3>Raih Skor Tinggi</h3>
+                <p>Hapus beberapa baris sekaligus (combo) untuk bonus poin! Game berakhir jika tidak ada blok yang bisa ditempatkan.</p>
+            </div>
+        </div>
+
+        <div class="tutorial-tips">
+            <h3>💡 Tips & Trik</h3>
+            <ul>
+                <li>🔥 Hapus beberapa baris sekaligus untuk <strong>combo bonus</strong> poin</li>
+                <li>📊 Selalu pikirkan beberapa langkah ke depan sebelum menempatkan blok</li>
+                <li>🎯 Jaga agar papan tidak terlalu penuh — sisakan ruang untuk blok besar</li>
+                <li>⚡ Blok tidak bisa diputar, jadi pilih posisi dengan cermat</li>
+                <li>🌟 Skor tertinggi tersimpan otomatis di perangkat Anda</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- GAME SECTION -->
+<section class="game-section" id="game-section">
+    <div class="container">
+        <h2 class="section-title">Main Sekarang</h2>
+
+        <!-- GAME UI -->
+        <div class="game-wrapper">
+            <!-- Score Panel -->
+            <div class="score-panel">
+                <div class="score-box">
+                    <span class="score-label">SKOR</span>
+                    <span class="score-value" id="scoreDisplay">0</span>
+                </div>
+                <div class="score-box">
+                    <span class="score-label">TERBAIK</span>
+                    <span class="score-value" id="bestScoreDisplay">0</span>
+                </div>
+                <div class="score-box">
+                    <span class="score-label">LEVEL</span>
+                    <span class="score-value" id="levelDisplay">1</span>
+                </div>
+            </div>
+
+            <!-- Game Board -->
+            <div class="board-container">
+                <canvas id="gameCanvas" width="400" height="400"></canvas>
+                <div class="board-overlay" id="boardOverlay">
+                    <div class="overlay-content" id="overlayContent">
+                        <div class="start-screen" id="startScreen">
+                            <div class="start-icon">🧩</div>
+                            <h2>Siap Bermain?</h2>
+                            <p>Tempatkan blok, isi baris & kolom, raih skor tertinggi!</p>
+                            <button class="btn-start" onclick="startGame()">▶ MULAI GAME</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Piece Panel -->
+            <div class="piece-panel">
+                <p class="piece-label">Pilih Blok:</p>
+                <div class="piece-tray" id="pieceTray"></div>
+            </div>
+
+            <!-- Game Controls -->
+            <div class="game-controls">
+                <button class="btn-control" onclick="restartGame()" title="Restart">🔄 Restart</button>
+                <button class="btn-control" onclick="togglePause()" id="pauseBtn" title="Pause">⏸ Pause</button>
+            </div>
+        </div>
+
+        <!-- Combo Message -->
+        <div class="combo-msg" id="comboMsg"></div>
+
+        <!-- Game Over Modal -->
+        <div class="modal-overlay" id="gameOverModal">
+            <div class="modal-box">
+                <div class="modal-icon">😢</div>
+                <h2>Game Over!</h2>
+                <p>Tidak ada ruang untuk blok berikutnya</p>
+                <div class="modal-scores">
+                    <div class="modal-score-item">
+                        <span>Skor Anda</span>
+                        <strong id="finalScore">0</strong>
+                    </div>
+                    <div class="modal-score-item">
+                        <span>Skor Terbaik</span>
+                        <strong id="finalBest">0</strong>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-start" onclick="restartGame()">🔄 Main Lagi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="features-section">
+    <div class="container">
+        <h2 class="section-title">Fitur Game</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Semua Perangkat</h3>
+                <p>Dimainkan di HP, tablet, maupun laptop — touchscreen & mouse didukung.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🆓</div>
+                <h3>100% Gratis</h3>
+                <p>Tidak ada iklan mengganggu, tidak perlu download, langsung main di browser.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💾</div>
+                <h3>Auto Save</h3>
+                <p>Skor tertinggi tersimpan otomatis di perangkat Anda menggunakan localStorage.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Cepat & Ringan</h3>
+                <p>Dibangun murni dengan HTML5 Canvas — tidak perlu plugin atau koneksi kencang.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Warna-Warni</h3>
+                <p>Blok dengan warna cerah yang menyenangkan membuat pengalaman bermain lebih seru.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>Asah Otak</h3>
+                <p>Latih logika dan kemampuan spasial sambil bersantai — cocok semua usia.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <div class="logo">
+                <span class="logo-icon">🧩</span>
+                <span class="logo-text">Block<span class="logo-accent">Puzzle</span>.fun</span>
+            </div>
+            <p class="footer-tagline">Game puzzle blok HTML5 gratis untuk semua!</p>
+        </div>
+        <div class="footer-links">
+            <div class="footer-col">
+                <h4>Game</h4>
+                <a href="#game-section">Main Sekarang</a>
+                <a href="#tutorial-section">Cara Bermain</a>
+                <a href="#hero">Beranda</a>
+            </div>
+            <div class="footer-col">
+                <h4>Informasi</h4>
+                <a href="privacy.html">Kebijakan Privasi</a>
+                <a href="legal.html">Syarat & Ketentuan</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2024 BlockPuzzle.fun — Game HTML5 gratis. Dibuat dengan ❤️</p>
+        <p class="footer-legal-links">
+            <a href="privacy.html">Privasi</a> · <a href="legal.html">Legal</a>
+        </p>
+    </div>
+</footer>
+
+<script src="game.js"></script>
+</body>
+</html>
